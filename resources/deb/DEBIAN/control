@@ -1,0 +1,6 @@
+Package: @Bundle-SymbolicName@
+Version: @Bundle-Version@
+Architecture: @ARCH@
+Depends: libpam0g
+Maintainer: @Bundle-Vendor@
+Description: PAM User Check Tool

@@ -1,0 +1,22 @@
+#!/bin/bash
+
+set -e
+set -x
+
+env
+
+. /usr/share/mkapp/functions
+
+set_env $ARCH
+
+dpkg --add-architecture armhf
+apt-get update
+apt-get install -y libpam0g-dev:${ARCH}
+
+ant_build
+
+dpkg-name target/*.deb
+
+if [ "$PUBLISH" ]; then
+  publish_debs
+fi

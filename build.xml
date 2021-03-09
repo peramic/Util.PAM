@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="pam-check-user" default="publish" xmlns:ivy="antlib:org.apache.ivy.ant">
+
+	<property file="${basedir}/build.properties" />
+
+	<property name="resources.dir" location="${basedir}/resources" />
+
+	<import>
+		<url url="${ivy.url}/ant/default.xml" />
+	</import>
+
+	<target name="clean-cache" description="Cleans the ivy cache">
+		<clean-cache />
+	</target>
+
+	<target name="clean-all" description="Cleans the project">
+		<clean />
+		<make args="clean" />
+	</target>
+
+	<target name="compile">
+		<mkdir dir="${build.dir}/include" />
+		<make args="all" />
+	</target>
+
+	<target name="deb" depends="compile">
+		<deb jar="false" arch="${arch}">
+			<copy file="${build.dir}/${basename}" todir="${build.dir}/deb/usr/bin" />
+			<chmod file="${build.dir}/deb/usr/bin/${basename}" perm="755" />
+		</deb>
+		<echo file="${build.dir}/${basename}_${manifest.Bundle-Version}_${arch}.dsc" append="false">Format: 3.0 (native)${line.separator}Source: ${basename}${line.separator}Architecture: ${arch}${line.separator}Version: ${manifest.Bundle-Version}</echo>
+	</target>
+
+	<target name="publish" depends="deb">
+		<publish jar="false" src="false" doc="false" app="false" />
+	</target>
+
+</project>

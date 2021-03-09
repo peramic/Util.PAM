@@ -1,0 +1,6 @@
+#!/bin/sh
+
+if ! dpkg-statoverride --list "/usr/bin/@Bundle-SymbolicName@" >/dev/null 2>&1
+then
+  dpkg-statoverride --update --add root shadow 1755 "/usr/bin/@Bundle-SymbolicName@"
+fi
